@@ -4,8 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>wurrld.</title>
-<link rel="stylesheet" href="home.css">
-
 <link rel="icon" type="image/x-icon" href="favicon.iso">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -15,6 +13,12 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="mask-icon" href="safari-pinned-tab.svg" color="#ff0000">
 <meta name="theme-color" content="#ff0000">
+<script>
+const cssLink = document.createElement('link');
+cssLink.rel = 'stylesheet';
+cssLink.href = 'home.css?v=' + new Date().getTime();
+document.head.appendChild(cssLink);
+</script>
 </head>
 <body>
 <div class="container">
@@ -49,7 +53,6 @@ function isOverlap(r1, r2) {
 function placeSquares() {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
-
     const hRect = heading.getBoundingClientRect();
     const headingZone = {
         top: hRect.top - 10,
@@ -57,13 +60,10 @@ function placeSquares() {
         left: hRect.left - 10,
         right: hRect.right + 10
     };
-
     const placedRects = [];
-
     squares.forEach(square => {
         let width = square.offsetWidth;
         let height = square.offsetHeight;
-
         let attempts = 0;
         let pos = {};
         do {
@@ -72,14 +72,12 @@ function placeSquares() {
             const leftPercent = Math.random() * 80 + 5;
             pos.top = (topPercent / 100) * viewportHeight;
             pos.left = (leftPercent / 100) * viewportWidth;
-
             const rect = {
                 top: pos.top,
                 left: pos.left,
                 bottom: pos.top + height,
                 right: pos.left + width
             };
-
             const collides = isOverlap(rect, headingZone) || placedRects.some(r => isOverlap(rect, r));
             if (!collides) {
                 placedRects.push(rect);
@@ -93,6 +91,11 @@ function placeSquares() {
 
 placeSquares();
 
+window.addEventListener('orientationchange', () => {
+    if (window.matchMedia("(orientation: landscape)").matches) {
+        location.reload();
+    }
+});
 </script>
 </body>
 </html>
