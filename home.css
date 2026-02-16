@@ -20,6 +20,9 @@ body {
 
 h1 {
     position: absolute;
+    top: calc(50% - 30px); /* slightly above center, fixed */
+    left: 50%;
+    transform: translateX(-50%);
     color: #ff0000;
     font-size: clamp(3rem, 12vw, 6rem);
     max-width: 90vw;
@@ -30,10 +33,7 @@ h1 {
 
 .square-wrapper {
     position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
+    visibility: hidden; /* hidden until JS positions them */
 }
 
 .square {

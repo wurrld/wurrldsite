@@ -9,7 +9,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 
-<link rel="stylesheet" href="home.css?v=3.1">
+<link rel="stylesheet" href="home.css?v=6.0">
 
 <link rel="icon" type="image/x-icon" href="favicon.iso">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -22,6 +22,7 @@
 <meta name="theme-color" content="#ff0000">
 </head>
 <body>
+
 <div class="container">
     <h1>wurrld.</h1>
 </div>
@@ -53,20 +54,7 @@ function isOverlap(r1, r2) {
 }
 
 function setContainerHeight() {
-    if (window.matchMedia("(max-width:600px)").matches && window.matchMedia("(orientation: portrait)").matches) {
-        container.style.height = `${window.innerHeight * 0.92}px`;
-    } else {
-        container.style.height = `${window.innerHeight}px`;
-    }
-}
-
-function positionHeading() {
-    const vh = window.innerHeight;
-    const headingHeight = heading.offsetHeight;
-    const topPos = vh / 2 - headingHeight / 2 - vh * 0.05;
-    heading.style.top = `${topPos}px`;
-    heading.style.left = `50%`;
-    heading.style.transform = `translateX(-50%)`;
+    container.style.height = `${window.innerHeight}px`;
 }
 
 function placeSquares() {
@@ -122,6 +110,7 @@ function placeSquares() {
                 placedRects.push(rect);
                 square.style.top = `${pos.top}px`;
                 square.style.left = `${pos.left}px`;
+                square.style.visibility = "visible"; // reveal after placement
                 break;
             }
         } while (attempts < 200);
@@ -129,14 +118,14 @@ function placeSquares() {
 }
 
 function recalcLayout() {
-    positionHeading();
     placeSquares();
 }
 
-recalcLayout();
-
 window.addEventListener('resize', recalcLayout);
 window.addEventListener('orientationchange', recalcLayout);
+
+// Run immediately after DOM ready
+document.addEventListener('DOMContentLoaded', recalcLayout);
 </script>
 </body>
 </html>
