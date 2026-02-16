@@ -20,7 +20,7 @@ body {
 
 h1 {
     position: absolute;
-    top: calc(50% - 30px); /* slightly above center, fixed */
+    top: calc(50% - 30px);
     left: 50%;
     transform: translateX(-50%);
     color: #ff0000;
@@ -33,7 +33,11 @@ h1 {
 
 .square-wrapper {
     position: absolute;
-    visibility: hidden; /* hidden until JS positions them */
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centers the label under square */
+    gap: 5px;
 }
 
 .square {
@@ -47,6 +51,7 @@ h1 {
     color: #ff0000;
     font-weight: normal;
     font-family: inherit;
+    text-align: center; /* ensures label is centered under square */
 }
 
 @media (max-width: 600px) {

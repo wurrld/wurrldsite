@@ -9,7 +9,7 @@
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 
-<link rel="stylesheet" href="home.css?v=6.0">
+<link rel="stylesheet" href="home.css?v=6.1">
 
 <link rel="icon" type="image/x-icon" href="favicon.iso">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -110,7 +110,7 @@ function placeSquares() {
                 placedRects.push(rect);
                 square.style.top = `${pos.top}px`;
                 square.style.left = `${pos.left}px`;
-                square.style.visibility = "visible"; // reveal after placement
+                square.style.visibility = "visible";
                 break;
             }
         } while (attempts < 200);
@@ -123,8 +123,6 @@ function recalcLayout() {
 
 window.addEventListener('resize', recalcLayout);
 window.addEventListener('orientationchange', recalcLayout);
-
-// Run immediately after DOM ready
 document.addEventListener('DOMContentLoaded', recalcLayout);
 </script>
 </body>
