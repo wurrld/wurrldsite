@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>wurrld.</title>
 
-<!-- CSS loaded immediately with cache-busting -->
-<link rel="stylesheet" href="home.css?v=1.0">
+<!-- Load CSS immediately with cache-busting -->
+<link rel="stylesheet" href="home.css?v=1.1">
 
 <link rel="icon" type="image/x-icon" href="favicon.iso">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -70,8 +70,14 @@ function placeSquares() {
 
     squares.forEach((square, i) => {
         const zone = zones[i];
-        const w = square.offsetWidth;
-        const h = square.offsetHeight;
+        let w = square.offsetWidth;
+        let h = square.offsetHeight;
+        if(window.matchMedia("(max-width:600px) and (orientation: landscape)").matches){
+            w *= 0.8;
+            h *= 0.8;
+            square.style.width = `${w}px`;
+            square.style.height = `${h}px`;
+        }
         let attempts = 0;
         let pos = {};
         do {
@@ -79,10 +85,8 @@ function placeSquares() {
             pos.top = zone.top + Math.random() * (zone.height - h);
             pos.left = zone.left + Math.random() * (zone.width - w);
             const rect = { top: pos.top, left: pos.left, bottom: pos.top + h, right: pos.left + w };
-
             const collidesHeading = isOverlap(rect, headingZone);
             const collidesSquares = placedRects.some(r => isOverlap(rect, r));
-
             if (!collidesHeading && !collidesSquares) {
                 placedRects.push(rect);
                 square.style.top = `${pos.top}px`;
@@ -103,4 +107,3 @@ window.addEventListener('orientationchange', () => {
 </script>
 </body>
 </html>
-
