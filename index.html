@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>wurrld.</title>
 
-<link rel="stylesheet" href="home.css?v=1.7">
+<link rel="stylesheet" href="home.css?v=2.2">
 
 <link rel="icon" type="image/x-icon" href="favicon.iso">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -56,13 +56,19 @@ function setContainerHeight() {
     }
 }
 
+function positionHeading() {
+    const vh = window.innerHeight;
+    const headingHeight = heading.offsetHeight;
+    const topPos = vh / 2 - headingHeight / 2 - vh * 0.05; // slightly above center
+    heading.style.top = `${topPos}px`;
+    heading.style.left = `50%`;
+    heading.style.transform = `translateX(-50%)`;
+}
+
 function placeSquares() {
+    setContainerHeight();
     const vw = window.innerWidth;
     const vh = container.clientHeight;
-
-    setContainerHeight();
-
-    heading.style.transform = "translateY(-12%)";
 
     const hRect = heading.getBoundingClientRect();
     const headingZone = {
@@ -118,13 +124,12 @@ function placeSquares() {
     });
 }
 
-let resizeTimeout;
 function recalcLayout() {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(placeSquares, 50);
+    positionHeading();
+    placeSquares();
 }
 
-placeSquares();
+recalcLayout();
 
 window.addEventListener('resize', recalcLayout);
 window.addEventListener('orientationchange', recalcLayout);
