@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>wurrld.</title>
 
-<link rel="stylesheet" href="home.css?v=1.6">
+<link rel="stylesheet" href="home.css?v=1.7">
 
 <link rel="icon" type="image/x-icon" href="favicon.iso">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -85,6 +85,8 @@ function placeSquares() {
         const zone = zones[i];
         let w = square.offsetWidth;
         let h = square.offsetHeight;
+        const label = square.querySelector('p');
+        const labelHeight = label.offsetHeight;
 
         if(window.matchMedia("(max-width:600px) and (orientation: landscape)").matches){
             w *= 0.8;
@@ -97,9 +99,13 @@ function placeSquares() {
         let pos = {};
         do {
             attempts++;
-            pos.top = Math.min(zone.top + Math.random() * (zone.height - h), vh - h);
-            pos.left = Math.min(zone.left + Math.random() * (zone.width - w), vw - w);
-            const rect = { top: pos.top, left: pos.left, bottom: pos.top + h, right: pos.left + w };
+            pos.top = zone.top + Math.random() * (zone.height - h - labelHeight);
+            pos.left = zone.left + Math.random() * (zone.width - w);
+
+            pos.top = Math.min(Math.max(pos.top, 0), vh - h - labelHeight);
+            pos.left = Math.min(Math.max(pos.left, 0), vw - w);
+
+            const rect = { top: pos.top, left: pos.left, bottom: pos.top + h + labelHeight, right: pos.left + w };
             const collidesHeading = isOverlap(rect, headingZone);
             const collidesSquares = placedRects.some(r => isOverlap(rect, r));
             if (!collidesHeading && !collidesSquares) {
@@ -108,7 +114,7 @@ function placeSquares() {
                 square.style.left = `${pos.left}px`;
                 break;
             }
-        } while (attempts < 100);
+        } while (attempts < 200);
     });
 }
 
