@@ -51,8 +51,8 @@ function isOverlap(r1, r2) {
 }
 
 function placeSquares() {
-    const viewportWidth = window.innerWidth;
-    const viewportHeight = window.innerHeight;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
     const hRect = heading.getBoundingClientRect();
     const headingZone = {
         top: hRect.top - 10,
@@ -60,26 +60,32 @@ function placeSquares() {
         left: hRect.left - 10,
         right: hRect.right + 10
     };
+
+    const zones = [
+        { top: 0, left: 0, width: vw/2, height: vh/2 },
+        { top: 0, left: vw/2, width: vw/2, height: vh/2 },
+        { top: vh/2, left: 0, width: vw/2, height: vh/2 },
+        { top: vh/2, left: vw/2, width: vw/2, height: vh/2 }
+    ];
+
     const placedRects = [];
-    squares.forEach(square => {
-        let width = square.offsetWidth;
-        let height = square.offsetHeight;
+
+    squares.forEach((square, i) => {
+        const zone = zones[i];
+        const w = square.offsetWidth;
+        const h = square.offsetHeight;
         let attempts = 0;
         let pos = {};
         do {
             attempts++;
-            const topPercent = Math.random() * 80 + 5;
-            const leftPercent = Math.random() * 80 + 5;
-            pos.top = (topPercent / 100) * viewportHeight;
-            pos.left = (leftPercent / 100) * viewportWidth;
-            const rect = {
-                top: pos.top,
-                left: pos.left,
-                bottom: pos.top + height,
-                right: pos.left + width
-            };
-            const collides = isOverlap(rect, headingZone) || placedRects.some(r => isOverlap(rect, r));
-            if (!collides) {
+            pos.top = zone.top + Math.random() * (zone.height - h);
+            pos.left = zone.left + Math.random() * (zone.width - w);
+            const rect = { top: pos.top, left: pos.left, bottom: pos.top + h, right: pos.left + w };
+
+            const collidesHeading = isOverlap(rect, headingZone);
+            const collidesSquares = placedRects.some(r => isOverlap(rect, r));
+
+            if (!collidesHeading && !collidesSquares) {
                 placedRects.push(rect);
                 square.style.top = `${pos.top}px`;
                 square.style.left = `${pos.left}px`;
