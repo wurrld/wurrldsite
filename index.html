@@ -4,6 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>wurrld.</title>
+
+<!-- CSS loaded immediately with cache-busting -->
+<link rel="stylesheet" href="home.css?v=1.0">
+
 <link rel="icon" type="image/x-icon" href="favicon.iso">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -13,12 +17,6 @@
 <link rel="manifest" href="site.webmanifest">
 <link rel="mask-icon" href="safari-pinned-tab.svg" color="#ff0000">
 <meta name="theme-color" content="#ff0000">
-<script>
-const cssLink = document.createElement('link');
-cssLink.rel = 'stylesheet';
-cssLink.href = 'home.css?v=' + new Date().getTime();
-document.head.appendChild(cssLink);
-</script>
 </head>
 <body>
 <div class="container">
