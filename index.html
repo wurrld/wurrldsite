@@ -40,58 +40,59 @@
 
 <script>
 const squares = document.querySelectorAll('.square-wrapper');
-const container = document.querySelector('.container');
+const heading = document.querySelector('h1');
+
+function isOverlap(r1, r2) {
+    return !(r1.left > r2.right || r1.right < r2.left || r1.top > r2.bottom || r1.bottom < r2.top);
+}
 
 function placeSquares() {
-    const padding = 2;
-    const containerRect = container.getBoundingClientRect();
-    const h1 = container.querySelector('h1');
-    const h1Rect = h1.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
 
-    const h1Zone = {
-        top: h1Rect.top - 20,
-        bottom: h1Rect.bottom + 20,
-        left: h1Rect.left - 20,
-        right: h1Rect.right + 20
+    const hRect = heading.getBoundingClientRect();
+    const headingZone = {
+        top: hRect.top - 10,
+        bottom: hRect.bottom + 10,
+        left: hRect.left - 10,
+        right: hRect.right + 10
     };
 
-    const zones = [
-        { top: 5, left: 5, width: 45, height: 45 },
-        { top: 5, left: 50, width: 45, height: 45 },
-        { top: 50, left: 5, width: 45, height: 45 },
-        { top: 50, left: 50, width: 45, height: 45 },
-    ];
+    const placedRects = [];
 
-    squares.forEach((square, i) => {
-        const zone = zones[i];
-        let top = zone.top + Math.random() * (zone.height - 10);
-        let left = zone.left + Math.random() * (zone.width - 10);
+    squares.forEach(square => {
+        let width = square.offsetWidth;
+        let height = square.offsetHeight;
 
-        const viewportWidth = window.innerWidth;
-        const viewportHeight = window.innerHeight;
-        let topPx = (top / 100) * viewportHeight;
-        let leftPx = (left / 100) * viewportWidth;
+        let attempts = 0;
+        let pos = {};
+        do {
+            attempts++;
+            const topPercent = Math.random() * 80 + 5;
+            const leftPercent = Math.random() * 80 + 5;
+            pos.top = (topPercent / 100) * viewportHeight;
+            pos.left = (leftPercent / 100) * viewportWidth;
 
-        if (topPx + square.offsetHeight > h1Zone.top &&
-            topPx < h1Zone.bottom &&
-            leftPx + square.offsetWidth > h1Zone.left &&
-            leftPx < h1Zone.right) {
-            topPx = h1Zone.bottom + 10;
-        }
+            const rect = {
+                top: pos.top,
+                left: pos.left,
+                bottom: pos.top + height,
+                right: pos.left + width
+            };
 
-        topPx = Math.min(topPx, viewportHeight - square.offsetHeight - 10);
-        leftPx = Math.min(leftPx, viewportWidth - square.offsetWidth - 10);
-
-        square.style.top = `${topPx}px`;
-        square.style.left = `${leftPx}px`;
+            const collides = isOverlap(rect, headingZone) || placedRects.some(r => isOverlap(rect, r));
+            if (!collides) {
+                placedRects.push(rect);
+                square.style.top = `${pos.top}px`;
+                square.style.left = `${pos.left}px`;
+                break;
+            }
+        } while (attempts < 100);
     });
 }
 
 placeSquares();
 
-window.addEventListener('orientationchange', () => {
-    setTimeout(() => placeSquares(), 200);
-});
 </script>
 </body>
 </html>

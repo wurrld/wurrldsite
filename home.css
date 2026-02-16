@@ -63,3 +63,18 @@ h1 {
         font-size: 0.7rem;
     }
 }
+
+@media (max-width: 600px) and (orientation: landscape) {
+    h1 {
+        font-size: 10vw;
+    }
+
+    .square {
+        width: 20px;
+        height: 20px;
+    }
+
+    .square-wrapper p {
+        font-size: 0.6rem;
+    }
+}
