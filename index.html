@@ -2,10 +2,15 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>wurrld.</title>
 
-<link rel="stylesheet" href="home.css?v=2.2">
+<!-- Force latest version and prevent FOUC -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+<link rel="stylesheet" href="home.css?v=3.0">
 
 <link rel="icon" type="image/x-icon" href="favicon.iso">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -59,7 +64,7 @@ function setContainerHeight() {
 function positionHeading() {
     const vh = window.innerHeight;
     const headingHeight = heading.offsetHeight;
-    const topPos = vh / 2 - headingHeight / 2 - vh * 0.05; // slightly above center
+    const topPos = vh / 2 - headingHeight / 2 - vh * 0.05;
     heading.style.top = `${topPos}px`;
     heading.style.left = `50%`;
     heading.style.transform = `translateX(-50%)`;
@@ -124,15 +129,27 @@ function placeSquares() {
     });
 }
 
+// Combine heading + squares placement
 function recalcLayout() {
     positionHeading();
     placeSquares();
 }
 
+// Initial placement
 recalcLayout();
 
+// Events
 window.addEventListener('resize', recalcLayout);
 window.addEventListener('orientationchange', recalcLayout);
+
+// Lock mobile to portrait
+if (window.matchMedia("(max-width:600px)").matches) {
+    window.addEventListener("orientationchange", () => {
+        if (window.matchMedia("(orientation: landscape)").matches) {
+            document.body.innerHTML = "<div style='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;font-size:2rem;color:#ff0000;'>Please rotate your device to portrait.</div>";
+        }
+    });
+}
 </script>
 </body>
 </html>
