@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>wurrld.</title>
 
-<link rel="stylesheet" href="home.css?v=1.4">
+<link rel="stylesheet" href="home.css?v=1.5">
 
 <link rel="icon" type="image/x-icon" href="favicon.iso">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
@@ -48,6 +48,7 @@ function isOverlap(r1, r2) {
     return !(r1.left > r2.right || r1.right < r2.left || r1.top > r2.bottom || r1.bottom < r2.top);
 }
 
+// Set container height to visible viewport
 function setContainerHeight() {
     container.style.height = `${window.innerHeight}px`;
 }
@@ -58,15 +59,8 @@ function placeSquares() {
 
     setContainerHeight();
 
-    if (window.matchMedia("(max-width:600px)").matches) {
-        if (window.matchMedia("(orientation: portrait)").matches) {
-            heading.style.transform = "translateY(-12%)";
-        } else {
-            heading.style.transform = "translateY(-8%)";
-        }
-    } else {
-        heading.style.transform = "translateY(-5%)";
-    }
+    // Heading slightly higher for all devices
+    heading.style.transform = "translateY(-12%)";
 
     const hRect = heading.getBoundingClientRect();
     const headingZone = {
@@ -90,6 +84,7 @@ function placeSquares() {
         let w = square.offsetWidth;
         let h = square.offsetHeight;
 
+        // Scale for mobile landscape
         if(window.matchMedia("(max-width:600px) and (orientation: landscape)").matches){
             w *= 0.8;
             h *= 0.8;
@@ -116,10 +111,19 @@ function placeSquares() {
     });
 }
 
+// Debounce to avoid multiple rapid recalcs on rotation
+let resizeTimeout;
+function recalcLayout() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(placeSquares, 50);
+}
+
+// Initial placement
 placeSquares();
 
-window.addEventListener('resize', placeSquares);
-window.addEventListener('orientationchange', () => setTimeout(placeSquares, 100));
+// Recalculate heading and squares on viewport changes
+window.addEventListener('resize', recalcLayout);
+window.addEventListener('orientationchange', recalcLayout);
 </script>
 </body>
 </html>
