@@ -1,0 +1,95 @@
+.wip-wrap {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: 24px;
+
+  color: var(--red);
+
+  --icon-size: clamp(140px, 18vw, 220px);
+  --gap: clamp(18px, 3vw, 32px);
+  --divider-w: clamp(2px, 0.35vw, 4px);
+}
+
+.wip-content {
+  align-self: center;
+  justify-self: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.wip-header {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+}
+
+.eyeIcon {
+  width: var(--icon-size);
+  height: var(--icon-size);
+  display: inline-block;
+
+  background-color: currentColor;
+
+  -webkit-mask-image: var(--mask-url);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  -webkit-mask-size: contain;
+
+  mask-image: var(--mask-url);
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+.wip-divider {
+  width: var(--divider-w);
+  height: var(--icon-size);
+  background: currentColor;
+  flex: 0 0 auto;
+}
+
+.wip-error {
+  font-size: clamp(3.2rem, 10vw, 7rem);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.wip-message {
+  margin-top: 18px;
+  font-size: clamp(1.25rem, 3.2vw, 2.1rem);
+  line-height: 1.25;
+  max-width: 32ch;
+}
+
+.wip-bottom {
+  justify-self: center;
+  align-self: end;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  padding-bottom: 10px;
+}
+
+.wip-note {
+  font-size: clamp(0.95rem, 2.2vw, 1.2rem);
+  opacity: 0.85;
+}
+
+.wip-back {
+  color: currentColor;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+.wip-back:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 6px;
+}
