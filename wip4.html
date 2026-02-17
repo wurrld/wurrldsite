@@ -3,41 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>wurrld.</title>
+  <title>wurrld. — wah.</title>
 
   <meta name="description" content="[official wurrld website]">
+
+  <link rel="preload" href="./assets/wah.svg" as="image" type="image/svg+xml">
 
   <link rel="stylesheet" href="global.css">
   <link rel="stylesheet" href="wip.css">
 </head>
 <body>
+
+  <img src="./assets/wah.svg" alt="" aria-hidden="true"
+       style="position:absolute;width:0;height:0;opacity:0;pointer-events:none;">
+
   <div class="wip-wrap">
     <div class="wip-content">
-
       <div class="wip-header">
-        <div
-          class="eyeIcon"
-          role="img"
-          aria-label="wurrld wah"
-          style="--mask-url: url('./assets/wah.svg');"
-        ></div>
-
-        <div class="wip-divider" aria-hidden="true"></div>
-
+        <div class="eyeIcon" role="img"
+             style="--mask-url: url('./assets/wah.svg');"></div>
+        <div class="wip-divider"></div>
         <span class="wip-error">wah.</span>
       </div>
 
-      <p class="wip-message">
-        waaaaaah!
-      </p>
-
+      <p class="wip-message">waaaaaah!</p>
     </div>
 
     <div class="wip-bottom">
-      <div class="wip-note">
-        (note: only the home page is up right now lol)
-      </div>
-
+      <div class="wip-note">(note: only the home page is up right now lol)</div>
       <a class="wip-back" href="index.html">← back</a>
     </div>
   </div>
